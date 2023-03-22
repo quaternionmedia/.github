@@ -2,6 +2,12 @@ name: 🐳 Build and publish a Docker image
 
 on:
   workflow_call:
+    inputs:
+      submodules:
+        description: Git submodule settings
+        type: string
+        default: ''
+
 
 env:
   REGISTRY: ghcr.io
@@ -18,6 +24,8 @@ jobs:
     steps:
       - name: 📰 Checkout repository
         uses: actions/checkout@v3
+        with:
+          submodules: ${{ inputs.submodules }}
 
       - name: 🏷️ Extract metadata (tags, labels) for Docker
         id: meta
