@@ -22,6 +22,7 @@ jobs:
         id: setup-python
         with:
           python-version: ${{ inputs.python_version }}
+          cache: pip
 
       - name: 🏴 Install black
         run: pip install black
