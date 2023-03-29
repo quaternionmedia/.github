@@ -19,7 +19,6 @@ jobs:
 
       - name: 🐍 Setup Python
         uses: actions/setup-python@main
-        id: setup-python
         with:
           python-version: ${{ inputs.python_version }}
           cache: pip
