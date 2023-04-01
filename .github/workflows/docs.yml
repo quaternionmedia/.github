@@ -6,7 +6,7 @@ on:
       pdm_args:
         description: Install args for pdm
         type: string
-        default: -G docs --no-self
+        default: -G docs --no-default
       python_version:
         description: The version of python to setup
         type: string
@@ -36,8 +36,8 @@ jobs:
 
       - name: 🖋️ Configure git user
         run: |
-          git config user.name mla-bot
-          git config user.email mla-bot@wgbh.org
+          git config user.name qm-bot
+          git config user.email qm-bot@quaternion.media
 
       - name: 🏗️ Deploy docs
         run: pdm run mike deploy --push --update-aliases ${VERSION_TITLE%\[latest\]} latest
