@@ -3,7 +3,7 @@ on:
   workflow_call:
     inputs:
       args:
-        description: 'Arguments to pass to ruff'
+        description: Arguments to pass to ruff
         type: string
         default: ''
 
@@ -23,4 +23,4 @@ jobs:
         run: pip install ruff
 
       - name: 🐕 Run Ruff
-        run: ruff check --format=github {{ $inputs.args }} .
+        run: ruff check --format=github ${{ inputs.args }} .
