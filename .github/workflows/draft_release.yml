@@ -1,11 +1,11 @@
-name: 📦 Release
+name: 📝 Draft Release
 
 on:
   workflow_call:
 
 jobs:
   release:
-    name: 📝 Draft Release
+    name: ✏️ Create draft release version
     runs-on: ubuntu-latest
     steps:
       - name: 📰 Checkout
