@@ -6,7 +6,7 @@ on:
       python_version:
         description: The version of python to setup
         type: string
-        default: 3.11
+        default: 3.x
 
       environment:
         description: The name of the environment to deploy
@@ -21,6 +21,10 @@ on:
       pytest_args:
         description: Additional args to pass to pytest
         type: string
+
+    secrets:
+      token:
+        description: The token to upload the coverage report to codecov
 
 jobs:
   run_pytest:
@@ -45,8 +49,11 @@ jobs:
         run: pytest -v --cov --cov-report lcov ${{ inputs.pytest_args }}
 
       - name: 📈 Uploade coverage report
+        # skip this step if no token present
         # run this step, even if the tests fail
-        if: success() || failure()
+        env:
+          token: ${{ secrets.token }}
+        if: env.token != null && success() || failure()
         uses: codecov/codecov-action@v3
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ secrets.token }}
