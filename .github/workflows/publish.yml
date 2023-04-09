@@ -10,17 +10,11 @@ on:
       python_version:
         description: The version of python to setup
         type: string
-        default: 3.11
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: The name of the environment to deploy
-        type: string
-        default: pypi
-      python_version:
-        description: The version of python to setup
-        type: string
-        default: 3.11
+        default: 3.x
+    secrets:
+      token:
+        description: The token to use to authenticate with PyPi
+        required: true
 
 jobs:
   publish:
@@ -31,15 +25,15 @@ jobs:
       - name: 📰 Checkout
         uses: actions/checkout@v3
 
-      - name: 🐍 Setup Python
-        uses: actions/setup-python@main
+      - name: 📲 Setup PDM
+        uses: pdm-project/setup-pdm@v3
         id: setup-python
         with:
           python-version: ${{ inputs.python_version }}
-          cache: pip
+          cache: true
 
-      - name: 📲 Install dependencies
-        run: pip install pdm
+      - name: 🚚 Install dependencies
+        run: pdm install --prod
 
       - name: 🏗️ Build package
         run: pdm build
@@ -47,4 +41,4 @@ jobs:
       - name: 🗞 Publish package
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          password: ${{ secrets.token }}
