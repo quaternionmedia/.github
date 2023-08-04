@@ -10,6 +10,10 @@ on:
       target:
         description: The docker image to target
         type: string
+      context:
+        description: The docker context to use
+        type: string
+        default: .
       registry:
         description: The docker registry to publish to
         type: string
@@ -45,7 +49,7 @@ jobs:
       - name: 🏗️ Build and push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ${{ inputs.context }}
           target: ${{ inputs.target }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
