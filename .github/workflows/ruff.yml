@@ -5,7 +5,7 @@ on:
       args:
         description: Arguments to pass to ruff
         type: string
-        default: ''
+        default: '.'
 
 jobs:
   build:
@@ -23,4 +23,4 @@ jobs:
         run: pip install ruff
 
       - name: 🐕 Run Ruff
-        run: ruff check --format=github ${{ inputs.args }} .
+        run: ruff check ${{ inputs.args }}
