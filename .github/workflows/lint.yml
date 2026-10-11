@@ -33,4 +33,4 @@ jobs:
         run: pip install ruff
 
       - name: 🐶 Run Ruff Linter
-        run: ruff ${{ inputs.ruff_args }} .
+        run: ruff check ${{ inputs.ruff_args }} .
