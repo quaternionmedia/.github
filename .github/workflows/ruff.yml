@@ -6,6 +6,10 @@ on:
         description: Arguments to pass to ruff
         type: string
         default: '.'
+      python_version:
+        description: The version of python to setup
+        type: string
+        default: 3.x
 
 jobs:
   build:
@@ -15,9 +19,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: 🐍 Install Python
-        uses: actions/setup-python@main
+        uses: actions/setup-python@v7
         with:
-          python-version: 3.x
+          python-version: ${{ inputs.python_version }}
 
       - name: 🚧 Install dependencies
         run: pip install ruff

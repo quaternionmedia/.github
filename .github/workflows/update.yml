@@ -7,12 +7,20 @@ on:
         description: Arguments to pass to pdm
         type: string
         default: -u --save-compatible --no-sync --no-self
+      python_version:
+        description: The version of python to setup
+        type: string
+        default: 3.11
   workflow_dispatch:
     inputs:
       pdm_args:
         description: Arguments to pass to pdm
         type: string
         default: -u --save-compatible --no-sync --no-self
+      python_version:
+        description: The version of python to setup
+        type: string
+        default: 3.11
 
 jobs:
   update:
@@ -25,7 +33,7 @@ jobs:
       - name: 📦 Setup PDM
         uses: pdm-project/setup-pdm@v3
         with:
-          python-version: 3.11
+          python-version: ${{ inputs.python_version }}
           cache: true
 
       - name: 👚 Update to latest compatible versions
