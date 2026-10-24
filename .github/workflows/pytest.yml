@@ -22,6 +22,18 @@ on:
         description: Additional args to pass to pytest
         type: string
 
+      submodules:
+        description: Git submodule settings, passed to actions/checkout
+        type: string
+        default: ''
+
+      requirements:
+        description: >-
+          A pinned requirements file, installed in its own pip call before
+          pip_args, the way a Dockerfile installs a lockfile
+        type: string
+        default: ''
+
 jobs:
   run_pytest:
     name: 🐍 Run pytest and upload coverage report
@@ -30,13 +42,21 @@ jobs:
 
     steps:
       - name: 📰 Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
+        with:
+          submodules: ${{ inputs.submodules }}
 
       - name: 🐍 Setup Python
-        uses: actions/setup-python@main
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ inputs.python_version }}
           cache: pip
+
+      - name: 📌 Install pinned requirements
+        if: inputs.requirements != ''
+        env:
+          REQUIREMENTS: ${{ inputs.requirements }}
+        run: pip install -r "$REQUIREMENTS"
 
       - name: 🏗️ Install dependencies
         run: pip install ${{ inputs.pip_args }}
@@ -47,6 +67,6 @@ jobs:
       - name: 📈 Uploade coverage report
         # run this step, even if the tests fail
         if: success() || failure()
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

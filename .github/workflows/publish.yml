@@ -23,10 +23,10 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
       - name: 📰 Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: 📲 Setup PDM
-        uses: pdm-project/setup-pdm@v3
+        uses: pdm-project/setup-pdm@v4
         id: setup-python
         with:
           python-version: ${{ inputs.python_version }}

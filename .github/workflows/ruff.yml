@@ -6,18 +6,22 @@ on:
         description: Arguments to pass to ruff
         type: string
         default: '.'
+      python_version:
+        description: The version of python to setup
+        type: string
+        default: 3.x
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: 📰 Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: 🐍 Install Python
-        uses: actions/setup-python@main
+        uses: actions/setup-python@v7
         with:
-          python-version: 3.x
+          python-version: ${{ inputs.python_version }}
 
       - name: 🚧 Install dependencies
         run: pip install ruff
