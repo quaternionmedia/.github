@@ -7,12 +7,20 @@ on:
         description: Arguments to pass to pdm
         type: string
         default: -u --save-compatible --no-sync --no-self
+      python_version:
+        description: The version of python to setup
+        type: string
+        default: 3.11
   workflow_dispatch:
     inputs:
       pdm_args:
         description: Arguments to pass to pdm
         type: string
         default: -u --save-compatible --no-sync --no-self
+      python_version:
+        description: The version of python to setup
+        type: string
+        default: 3.11
 
 jobs:
   update:
@@ -20,19 +28,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📰 Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: 📦 Setup PDM
-        uses: pdm-project/setup-pdm@v3
+        uses: pdm-project/setup-pdm@v4
         with:
-          python-version: 3.11
+          python-version: ${{ inputs.python_version }}
           cache: true
 
       - name: 👚 Update to latest compatible versions
         run: pdm update ${{ inputs.pdm_args }}
 
       - name: 📝 Create pull request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v8
         with:
           branch: update-dependencies
           title: 🤖 Update dependencies

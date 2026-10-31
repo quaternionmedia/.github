@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: 📰 Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: 🐍 Setup Python
-        uses: actions/setup-python@main
+        uses: actions/setup-python@v7
         id: setup-python
         with:
           python-version: ${{ inputs.python_version }}
