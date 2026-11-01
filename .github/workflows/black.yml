@@ -8,6 +8,13 @@ on:
         default: 3.11
         type: string
 
+      black_version:
+        description: >-
+          A pip version specifier for black, such as '>=26,<27', so the check
+          runs the black the caller formats with; empty installs the newest
+        default: ''
+        type: string
+
 jobs:
   black:
     name: ⬛ Black Formatter
@@ -25,7 +32,9 @@ jobs:
           cache: pip
 
       - name: 🏴 Install black
-        run: pip install black
+        env:
+          SPECIFIER: ${{ inputs.black_version }}
+        run: pip install "black${SPECIFIER}"
 
       - name: 🎱 Run Black
         run: black -vS --check --diff --color .

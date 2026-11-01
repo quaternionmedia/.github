@@ -13,6 +13,13 @@ on:
         default: -v
         type: string
 
+      ruff_version:
+        description: >-
+          A pip version specifier for ruff, such as '>=0.5,<1', so the check
+          runs the ruff the caller lints with; empty installs the newest
+        default: ''
+        type: string
+
 jobs:
   lint:
     name: 👔 Linter
@@ -30,7 +37,9 @@ jobs:
           cache: pip
 
       - name: 🐕 Install ruff
-        run: pip install ruff
+        env:
+          SPECIFIER: ${{ inputs.ruff_version }}
+        run: pip install "ruff${SPECIFIER}"
 
       - name: 🐶 Run Ruff Linter
         run: ruff check ${{ inputs.ruff_args }} .
