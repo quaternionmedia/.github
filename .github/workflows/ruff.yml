@@ -10,6 +10,12 @@ on:
         description: The version of python to setup
         type: string
         default: 3.x
+      ruff_version:
+        description: >-
+          A pip version specifier for ruff, such as '>=0.5,<1', so the check
+          runs the ruff the caller lints with; empty installs the newest
+        type: string
+        default: ''
 
 jobs:
   build:
@@ -24,7 +30,9 @@ jobs:
           python-version: ${{ inputs.python_version }}
 
       - name: 🚧 Install dependencies
-        run: pip install ruff
+        env:
+          SPECIFIER: ${{ inputs.ruff_version }}
+        run: pip install "ruff${SPECIFIER}"
 
       - name: 🐕 Run Ruff
         run: ruff check ${{ inputs.args }}
